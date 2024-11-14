@@ -1,0 +1,5 @@
+# Dockerfile for MySQL
+FROM mysql:8.0
+
+# Expose port
+EXPOSE 3306

@@ -17,4 +17,4 @@ RUN apt-get update && \
 EXPOSE 8080
 
 # Set the entry point for the container
-CMD ["java", "-jar", "/app/target/suseventsdetector-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/target/suspicious-events-detector-0.0.1-SNAPSHOT.jar"]

@@ -1,0 +1,45 @@
+# Java and Maven specific ignores
+target/
+*.log
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.swp
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# NetBeans
+nbproject/
+
+# Maven Wrapper
+.mvn/
+mvnw
+mvnw.cmd
+
+# Gradle
+.gradle/
+build/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Maven local repository
+~/.m2/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+.meta
