@@ -1,5 +1,5 @@
 # Use an OpenJDK base image
-FROM openjdk:17-jdk-slim
+FROM openjdk:8-jdk-slim
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -17,4 +17,4 @@ RUN apt-get update && \
 EXPOSE 8080
 
 # Set the entry point for the container
-CMD ["java", "-jar", "target/suseventsdetector-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/target/suseventsdetector-0.0.1-SNAPSHOT.jar"]
