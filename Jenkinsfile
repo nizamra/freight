@@ -28,6 +28,7 @@ pipeline {
                 sh "mvn test"
             }
         }
+    }
 
         stage('Build Java App Docker Image') {
             steps {
