@@ -10,9 +10,9 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout Java App Code') {
             steps {
-                // Checkout the code from GitHub
+                // Checkout the Java app code from GitHub
                 git url: 'https://github.com/nizamra/freight.git', branch: 'master'
 
                 // Capture the Git commit hash
@@ -46,17 +46,24 @@ pipeline {
             }
         }
 
+        stage('Checkout Helm Chart') {
+            steps {
+                // Clone the Helm chart repository
+                git url: 'https://github.com/nizamra/hcharts.git', branch: 'master'
+            }
+        }
+
         stage('Deploy to Local Kubernetes with Helm') {
             steps {
                 script {
                     // Set Helm release name and chart directory
                     def helmRelease = 'java-mysql-app'
-                    def chartDir = 'helm-chart'
+                    def chartDir = 'java-app-helm-chart'
 
                     // Run Helm upgrade or install with the KUBECONFIG set
                     withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
                         sh 'kubectl cluster-info'
-                        sh """                            
+                        sh """
                             helm upgrade --install ${helmRelease} ${chartDir} \
                             --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH}
                         """
