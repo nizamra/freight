@@ -42,6 +42,9 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                         // Perform the Docker login and push commands
                         sh "echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USER} --password-stdin || true"
+                        docker.withRegistry('', "${DOCKERHUB_CREDENTIALS}") {
+                            docker.image("${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}").push("latest")
+                        }
                     }
                 }
             }
