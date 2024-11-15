@@ -6,7 +6,6 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKERHUB_REPO = 'nizamra'
         JAVA_APP_IMAGE = 'suseventsdetector'
-        DB_IMAGE = 'mysql'
     }
 
     stages {
@@ -22,15 +21,6 @@ pipeline {
                 script {
                     // Build the Docker image for the Java app
                     docker.build("${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}", '-f Dockerfile .')
-                }
-            }
-        }
-
-        stage('Build Database Docker Image') {
-            steps {
-                script {
-                    // Build the Docker image for the SQL database
-                    docker.build("${DOCKERHUB_REPO}/${DB_IMAGE}", '-f Dockerfile.database .')
                 }
             }
         }
