@@ -65,18 +65,21 @@ pipeline {
                     // Set Helm release name and chart directory
                     def helmRelease = 'java-mysql-app'
                     def chartDir = 'java-app-helm-chart'
+                    // Read SQL user and password from Jenkins credentials (ID = 'SQL')
+                    withCredentials([usernamePassword(credentialsId: 'SQL', passwordVariable: 'SQL_PASS', usernameVariable: 'SQL_USER')]) {
 
-                    // Run Helm upgrade or install with the KUBECONFIG set
-                    withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
-                        sh 'kubectl config set-context --current --namespace= java-app-namespace'
-                        sh """
-                            helm upgrade --install ${helmRelease} ${chartDir} \
-                            --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH} \
-                            --set app.env.mysqlHost=mysql-db \
-                            --set app.env.mysqlDatabase=detector \
-                            --set app.env.mysqlUsername=detector-user \
-                            --set app.env.mysqlPassword=detector-pass
-                        """
+                        // Run Helm upgrade or install with the KUBECONFIG set
+                        withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
+                            sh 'kubectl config set-context --current --namespace= java-app-namespace'
+                            sh """
+                                helm upgrade --install ${helmRelease} ${chartDir} \
+                                --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH} \
+                                --set app.env.mysqlHost=mysql-db \
+                                --set app.env.mysqlDatabase=detector \
+                                --set app.env.mysqlUsername=${SQL_user}\
+                                --set app.env.mysqlPassword=${SQL_pass}
+                            """
+                        }
                     }
                 }
             }
