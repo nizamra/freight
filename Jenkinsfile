@@ -7,6 +7,7 @@ pipeline {
         DOCKERHUB_REPO = 'nizamra'
         JAVA_APP_IMAGE = 'suseventsdetector'
         COMMIT_HASH = ''
+        KUBECONFIG = '~/.kube/config'
     }
 
     stages {
@@ -36,9 +37,8 @@ pipeline {
                 script {
                     // Login to DockerHub securely and push the image
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-
                         // Perform Docker login
-                        sh "echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USER} --password-stdin || true"
+                        sh "echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USER} --password-stdin"
 
                         // Push the image with the commit hash tag
                         docker.image("${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH}").push()
@@ -54,12 +54,14 @@ pipeline {
                     def helmRelease = 'java-mysql-app'
                     def chartDir = 'helm-chart'
 
-                    // Run Helm upgrade or install command
-                    sh """
-                        helm upgrade --install ${helmRelease} ${chartDir} \
-                        --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE} \
-                        --set app.tag=${COMMIT_HASH}
-                    """
+                    // Run Helm upgrade or install with the KUBECONFIG set
+                    withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
+                        sh """
+                            helm upgrade --install ${helmRelease} ${chartDir} \
+                            --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE} \
+                            --set app.tag=${COMMIT_HASH}
+                        """
+                    }
                 }
             }
         }
