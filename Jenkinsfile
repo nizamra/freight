@@ -77,7 +77,8 @@ pipeline {
                         // Run Helm upgrade or install with the KUBECONFIG set
                         withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
                             sh """
-                                helm upgrade --install ${helmRelease} ${chartDir} -n java-app-namespace \
+                                kubectl config set-context --current --namespace=java-app-namespace
+                                helm upgrade --install ${helmRelease} ${chartDir} \
                                 --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH} \
                                 --set app.env.mysqlHost=mysql-db \
                                 --set app.env.mysqlDatabase=detector \
