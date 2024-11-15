@@ -56,14 +56,10 @@ pipeline {
 
                     // Run Helm upgrade or install with the KUBECONFIG set
                     withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
-                        sh 'echo ${KUBECONFIG}'
-                        sh 'cat $KUBECONFIG'
                         sh 'kubectl cluster-info'
-                        sh 'kubectl get pods'
                         sh """                            
                             helm upgrade --install ${helmRelease} ${chartDir} \
-                            --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE} \
-                            --set app.tag=${COMMIT_HASH}
+                            --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH}
                         """
                     }
                 }
