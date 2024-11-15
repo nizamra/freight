@@ -24,7 +24,7 @@ pipeline {
 
         stage('run code quality checks') {
             steps {
-                sh "echo linter & formatter"
+                sh "echo linter and formatter"
             }
         }
 
