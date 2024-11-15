@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from GitHub
-                git url: 'https://github.com/nizamra/freight.git', branch: 'main'
+                git url: 'https://github.com/nizamra/freight.git', branch: 'master'
             }
         }
 
