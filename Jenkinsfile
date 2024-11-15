@@ -22,6 +22,13 @@ pipeline {
             }
         }
 
+    stages {
+        stage('run automated tests') {
+            steps {
+                sh "mvn test"
+            }
+        }
+
         stage('Build Java App Docker Image') {
             steps {
                 script {

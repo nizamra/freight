@@ -1,6 +1,10 @@
 # Use an OpenJDK base image
 FROM openjdk:8-jdk-slim
 
+# Install dependancies for the project
+RUN apt-get update && \
+    apt-get install -y maven
+
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -8,10 +12,8 @@ WORKDIR /app
 COPY ./src /app/src
 COPY ./pom.xml /app
 
-# Install Maven and build the project
-RUN apt-get update && \
-    apt-get install -y maven && \
-    mvn clean install -DskipTests
+# Build the project
+RUN mvn clean install -DskipTests
 
 # Expose the port that Spring Boot is running on
 EXPOSE 8080
