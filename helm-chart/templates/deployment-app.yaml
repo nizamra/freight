@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    metadata:
+      labels:
+        app: java-app
+    spec:
+      containers:
+        - name: java-app
+          image: {{ .Values.app.image }}
+          ports:
+            - containerPort: {{ .Values.app.port }}
+          env:
+            - name: MYSQL_HOST
+              value: {{ .Values.app.env.mysqlHost }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.app.env.mysqlDatabase }}
+            - name: MYSQL_USERNAME
+              value: {{ .Values.app.env.mysqlUsername }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.app.env.mysqlPassword }}

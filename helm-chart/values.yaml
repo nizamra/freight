@@ -1,0 +1,22 @@
+# MySQL Configuration
+mysql:
+  image: nizamra/custom-mysql:latest
+  username: detector-user
+  password: detector-pass
+  rootPassword: root-pass
+  database: detector
+  port: 3306
+
+# Java App Configuration
+app:
+  image: nizamra/suseventsdetector:latest
+  replicas: 2
+  port: 8080
+  env:
+    mysqlHost: mysql-db
+    mysqlDatabase: detector
+    mysqlUsername: detector-user
+    mysqlPassword: detector-pass
+
+# Namespace Configuration
+namespace: java-app-namespace
