@@ -64,7 +64,7 @@ pipeline {
                     withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
                         sh 'kubectl cluster-info'
                         sh """
-                            helm upgrade --install ${helmRelease} ${chartDir} \
+                            helm upgrade --install ${helmRelease} ${chartDir} -n java-app-namespace\
                             --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH} \
                             --set app.env.mysqlHost=mysql-db \
                             --set app.env.mysqlDatabase=detector \
