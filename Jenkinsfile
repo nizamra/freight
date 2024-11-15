@@ -22,6 +22,12 @@ pipeline {
             }
         }
 
+        stage('run code quality checks') {
+            steps {
+                sh "echo linter & formatter"
+            }
+        }
+
         stage('run automated tests') {
             steps {
                 sh "echo mvn test"
@@ -70,9 +76,8 @@ pipeline {
 
                         // Run Helm upgrade or install with the KUBECONFIG set
                         withEnv(["KUBECONFIG=${KUBECONFIG}"]) {
-                            sh 'kubectl config set-context --current --namespace= java-app-namespace'
                             sh """
-                                helm upgrade --install ${helmRelease} ${chartDir} \
+                                helm upgrade --install ${helmRelease} ${chartDir} -n java-app-namespace \
                                 --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH} \
                                 --set app.env.mysqlHost=mysql-db \
                                 --set app.env.mysqlDatabase=detector \
