@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // DockerHub credentials
-        DOCKERHUB_CREDENTIALS = credentials('13e42548-ea7b-4bfd-9e2c-e0866b47d99e')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKERHUB_REPO = 'nizamra'
         JAVA_APP_IMAGE = 'suseventsdetector'
         DB_IMAGE = 'mysql'
