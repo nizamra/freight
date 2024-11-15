@@ -7,7 +7,7 @@ pipeline {
         DOCKERHUB_REPO = 'nizamra'
         JAVA_APP_IMAGE = 'suseventsdetector'
         COMMIT_HASH = ''
-        KUBECONFIG = '~/.kube/config'
+        KUBECONFIG = 'C:\\Users\\HP\\.kube\\config'
     }
 
     stages {
