@@ -65,7 +65,11 @@ pipeline {
                         sh 'kubectl cluster-info'
                         sh """
                             helm upgrade --install ${helmRelease} ${chartDir} \
-                            --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH}
+                            --set app.image=${DOCKERHUB_REPO}/${JAVA_APP_IMAGE}:${COMMIT_HASH} \
+                            --set app.env.mysqlHost=database-1.c9i2ya4kms71.us-east-1.rds.amazonaws.com \
+                            --set app.env.mysqlDatabase=database-1 \
+                            --set app.env.mysqlUsername=adminSYS \
+                            --set app.env.mysqlPassword=Mast3erP1ss
                         """
                     }
                 }
