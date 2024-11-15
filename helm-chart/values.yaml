@@ -1,6 +1,6 @@
 # MySQL Configuration
 mysql:
-  image: nizamra/custom-mysql:latest
+  image: nizamra/mysql:latest
   username: detector-user
   password: detector-pass
   rootPassword: root-pass
